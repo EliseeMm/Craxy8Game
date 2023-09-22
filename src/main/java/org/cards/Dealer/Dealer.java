@@ -10,11 +10,9 @@ import java.util.*;
  * Dealer, that will shuffle the deck of cards and hand them out to players
  */
 public class Dealer {
-    private final DeckOfCards deckOfCards;
     private final Stack<Card> cardStack;
 
     public Dealer(DeckOfCards deckOfCards){
-        this.deckOfCards = deckOfCards;
         this.cardStack = deckOfCards.getDeckOfCards();
 
     }
@@ -31,7 +29,7 @@ public class Dealer {
         // Shuffles the list of cards
         Collections.shuffle(cards);
 
-        // Adds the cards back to the deck
+        // Add the cards back to the deck
         for (Card card: cards
              ) {
             cardStack.push(card);
