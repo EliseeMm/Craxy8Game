@@ -161,6 +161,30 @@ public class GamePlayTests {
         assertEquals(playersOrderInitially.get(0).getPlayerName(),gamePlay.getGamePlayers().get(1).getPlayerName());
     }
 
+    @Test
+    void skipTheNextPlayer(){
+        ArrayList<Player> players = new ArrayList<>();
+        Player player3 = new Player("Kazekage");
+        players.add(player1);
+        players.add(player2);
+        players.add(player3);
+
+        ArrayList<Player> playersOrderInitially = new ArrayList<>(players);
+
+        Card centreCard = dealer.setCentreCard();
+
+        Stack<Card> stockPileBeginning = new Stack<>();
+        stockPileBeginning.addAll(dealer.getDeckOfCards());
+
+
+        JSONObject request1 = generateJson("Iron","discard","Clubs","7");
+
+        GamePlay gamePlay = new GamePlay(players,stockPileBeginning,centreCard);
+        gamePlay.play(request1);
+
+        assertEquals("Kazekage",gamePlay.getCurrentPlayer().getPlayerName());
+    }
+
     JSONObject generateJson(String name, String action, String suit,String number  ){
         JSONObject request = new JSONObject();
         JSONObject card = new JSONObject();

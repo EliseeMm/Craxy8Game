@@ -21,7 +21,7 @@ public class GamePlay {
         discardPile = new Stack<>();
         discardPile.push(centreCard);
         this.centreCard = discardPile.peek();
-        currentPlayer = gamePlayers.get(0);
+        this.currentPlayer = gamePlayers.get(0);
     }
 
     public ArrayList<Player> getGamePlayers() {
@@ -66,12 +66,16 @@ public class GamePlay {
      */
     private boolean cardPlacedOnDiscardPile(Player player,Card card){
         player.placeCardDown(card);
-        if(card.number().matches("\\d+")) {
-            if (Integer.parseInt(card.number()) == 2) {
+        if(card.number().matches("\\d+") && card.number().equals("2") || card.number().equals("Joker")) {
+            if (card.number().equals("Joker")) {
+                makingAPlayerPickUp(5);
+            }else {
                 makingAPlayerPickUp(2);
             }
         } else if (card.number().equals("J")) {
             reverseList();
+        } else if (card.number().equals("7")) {
+            skipTheNextPlayer();
         }
 
         discardPile.push(card);
@@ -81,17 +85,35 @@ public class GamePlay {
     private void playerPicksUpCard(Player player){
         Card cardToPick = stockPile.pop();
         player.pickUpCard(cardToPick);
-        currentPlayer = gamePlayers.get(gamePlayers.indexOf(currentPlayer)+1);
+        nextPlayer();
     }
 
     // if a player plays the 7 card it skips the player immediately after them
     private void skipTheNextPlayer(){
-        currentPlayer = gamePlayers.get(gamePlayers.indexOf(currentPlayer)+2);
+        int indexOfCurrentPlayer = gamePlayers.indexOf(currentPlayer);
+        if(indexOfCurrentPlayer == gamePlayers.size()-1 && gamePlayers.size() > 2){
+            currentPlayer = gamePlayers.get(1);
+        } else if (indexOfCurrentPlayer == gamePlayers.size()-1) {
+            currentPlayer = gamePlayers.get(indexOfCurrentPlayer);
+        } else if((indexOfCurrentPlayer+2) > gamePlayers.size()-1){
+            currentPlayer = gamePlayers.get(0);
+        }else {
+            currentPlayer = gamePlayers.get(gamePlayers.indexOf(currentPlayer) + 2);
+        }
     }
 
     // if a player plays the J/Jack card it reverses the order of the players
     private void reverseList(){
+        int indexOfCurrentPlayer = gamePlayers.indexOf(currentPlayer);
+
+        if(indexOfCurrentPlayer == 0){
+            currentPlayer = gamePlayers.get(gamePlayers.size()-1);
+        }
+        else {
+            currentPlayer = gamePlayers.get(indexOfCurrentPlayer - 1);
+        }
         Collections.reverse(gamePlayers);
+
     }
 
     private void makingAPlayerPickUp(int cardsToPick){
@@ -99,7 +121,7 @@ public class GamePlay {
             Card card = stockPile.pop();
             cardsToHandToPlayer.add(card);
         }
-        currentPlayer = gamePlayers.get(gamePlayers.indexOf(currentPlayer)+1);
+        nextPlayer();
     }
     private void rejectCards(){
         for (Card card:cardsToHandToPlayer
@@ -107,6 +129,7 @@ public class GamePlay {
             stockPile.push(card);
         }
         cardsToHandToPlayer.clear();
+        nextPlayer();
     }
 
     private void acceptCards(){
@@ -115,9 +138,24 @@ public class GamePlay {
             currentPlayer.pickUpCard(card);
         }
         cardsToHandToPlayer.clear();
+
+        nextPlayer();
     }
 
     public Card getCentreCard() {
         return centreCard;
+    }
+
+    public Player getCurrentPlayer(){
+        return currentPlayer;
+    }
+
+    public void nextPlayer(){
+        int indexOfCurrentPlayer = gamePlayers.indexOf(currentPlayer);
+        if(indexOfCurrentPlayer == gamePlayers.size()-1){
+            currentPlayer = gamePlayers.get(0);
+        }else {
+            currentPlayer = gamePlayers.get(gamePlayers.indexOf(currentPlayer) + 1);
+        }
     }
 }
