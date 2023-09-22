@@ -47,7 +47,7 @@ public class Dealer {
             cardsPerPlayer = 5;
         }
 
-        for(int cardNum = 0; cardNum < cardsPerPlayer; cardNum++) {
+        for(int cardNum = 1; cardNum <= cardsPerPlayer; cardNum++) {
             for (Player player : players
             ) {
                 Card card = cardStack.pop();

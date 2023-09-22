@@ -8,7 +8,12 @@ import java.util.Stack;
  * Represents a player playing a game
  */
 public class Player {
-    private final ArrayList<Card> cardsInHand = new ArrayList<>();
+    private final ArrayList<Card> cardsInHand;
+
+    public Player(){
+        cardsInHand = new ArrayList<>();
+    }
+
 
     // Used when a player picks up cards or is dealt cards
     public Card pickUpCards(Stack<Card> deck){

@@ -12,11 +12,16 @@ import java.util.Stack;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PlayerTest {
-    private final Player player1 = new Player();
-    private final DeckOfCards deckOfCards = new DeckOfCards();
-    private final Dealer dealer = new Dealer(deckOfCards);
+    private  Player player1;
+    private  Dealer dealer;
 
 
+    @BeforeEach
+    void initialize(){
+        player1 = new Player();
+        DeckOfCards deckOfCards = new DeckOfCards();
+        dealer = new Dealer(deckOfCards);
+    }
     @Test
     void playerPlaysCard(){
         dealer.shuffleCards();
@@ -34,22 +39,25 @@ public class PlayerTest {
 
     @Test
     void playerPickUpCardFromStack(){
+        // dealer shuffles the card
         dealer.shuffleCards();
+
+        // dealer gives player cards
         dealer.dealCards(List.of(player1));
 
-        ArrayList<Card> cardsInitial = player1.getCardsInHand();
-        System.out.println(cardsInitial);
+        // save the initial set of cards
+        ArrayList<Card> cardsInitial = new ArrayList<>(player1.getCardsInHand());
 
+        // cards left after the deal
         Stack<Card> remainingCards = dealer.getDeckOfCards();
 
+        // player picks up card from remaining stack
         Card pickedUpCard = player1.pickUpCards(remainingCards);
-        System.out.println(pickedUpCard);
 
-        ArrayList<Card> cardsFinal = player1.getCardsInHand();
-        System.out.println(cardsFinal);
+        // save the set of cards after picking
+        ArrayList<Card> cardsFinal = new ArrayList<>(player1.getCardsInHand());
 
         // Checks that the player did not initially have this card
-        System.out.println(cardsInitial.contains(pickedUpCard));
         assertFalse(cardsInitial.contains(pickedUpCard));
 
         // Checks that the player now has this card
