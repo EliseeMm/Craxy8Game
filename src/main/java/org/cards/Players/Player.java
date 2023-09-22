@@ -46,4 +46,9 @@ public class Player {
     public void pickUpCard(Card cardToPick) {
         cardsInHand.add(cardToPick);
     }
+
+    @Override
+    public String toString(){
+        return playerName;
+    }
 }

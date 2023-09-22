@@ -3,18 +3,13 @@ import org.cards.Dealer.Dealer;
 import org.cards.DeckOfCards;
 import org.cards.GamePlay;
 import org.cards.Players.Player;
-import org.json.JSONArray;
 import org.json.JSONObject;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Stack;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 public class GamePlayTests {
@@ -64,6 +59,7 @@ public class GamePlayTests {
     void playerPicksUpCard(){
         ArrayList<Player> players = new ArrayList<>();
         players.add(player1);
+        players.add(player2);
         dealer.dealCards(players);
 
         Card centreCard = dealer.setCentreCard();
@@ -136,8 +132,33 @@ public class GamePlayTests {
 
         gamePlay.play(request2);
         // check that player2 has the same cards as before
-        assertTrue(player2.getCardsInHand().size() == cardsInitial.size());
+        assertEquals(player2.getCardsInHand().size(), cardsInitial.size());
         assertEquals(0,player2.getCardsInHand().size() -  cardsInitial.size());
+    }
+    @Test
+    void playerReversesOrder(){
+        ArrayList<Player> players = new ArrayList<>();
+        players.add(player1);
+        players.add(player2);
+
+        ArrayList<Player> playersOrderInitially = new ArrayList<>(players);
+
+        Card centreCard = dealer.setCentreCard();
+
+        Stack<Card> stockPileBeginning = new Stack<>();
+        stockPileBeginning.addAll(dealer.getDeckOfCards());
+
+
+        JSONObject request1 = generateJson("Iron","discard","Hearts","J");
+
+        GamePlay gamePlay = new GamePlay(players,stockPileBeginning,centreCard);
+        gamePlay.play(request1);
+
+        // ensure that the order has been reversed by checking that the first player has changed
+        assertNotEquals(playersOrderInitially.get(0).getPlayerName(),gamePlay.getGamePlayers().get(0).getPlayerName());
+
+        // ensure that the initial first player is now the last player
+        assertEquals(playersOrderInitially.get(0).getPlayerName(),gamePlay.getGamePlayers().get(1).getPlayerName());
     }
 
     JSONObject generateJson(String name, String action, String suit,String number  ){

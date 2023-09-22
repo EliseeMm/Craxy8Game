@@ -70,6 +70,8 @@ public class GamePlay {
             if (Integer.parseInt(card.number()) == 2) {
                 makingAPlayerPickUp(2);
             }
+        } else if (card.number().equals("J")) {
+            reverseList();
         }
 
         discardPile.push(card);
@@ -79,6 +81,7 @@ public class GamePlay {
     private void playerPicksUpCard(Player player){
         Card cardToPick = stockPile.pop();
         player.pickUpCard(cardToPick);
+        currentPlayer = gamePlayers.get(gamePlayers.indexOf(currentPlayer)+1);
     }
 
     // if a player plays the 7 card it skips the player immediately after them
