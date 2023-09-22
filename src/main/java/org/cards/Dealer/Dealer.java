@@ -3,7 +3,6 @@ package org.cards.Dealer;
 import org.cards.Card;
 import org.cards.DeckOfCards;
 import org.cards.Players.Player;
-
 import java.util.*;
 
 /*
@@ -54,6 +53,9 @@ public class Dealer {
         }
     }
 
+    public Card setCentreCard(){
+        return cardStack.pop();
+    }
     public Stack<Card> getDeckOfCards(){
         return cardStack;
     }

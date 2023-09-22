@@ -18,7 +18,7 @@ public class PlayerTest {
 
     @BeforeEach
     void initialize(){
-        player1 = new Player();
+        player1 = new Player("One");
         DeckOfCards deckOfCards = new DeckOfCards();
         dealer = new Dealer(deckOfCards);
     }

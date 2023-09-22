@@ -9,9 +9,12 @@ import java.util.Stack;
  */
 public class Player {
     private final ArrayList<Card> cardsInHand;
+    private final String playerName;
 
-    public Player(){
+    public Player(String playerName){
+
         cardsInHand = new ArrayList<>();
+        this.playerName = playerName;
     }
 
 
@@ -34,5 +37,13 @@ public class Player {
 
     public void getCardFromDealer(Card card) {
         cardsInHand.add(card);
+    }
+
+    public String getPlayerName() {
+        return playerName;
+    }
+
+    public void pickUpCard(Card cardToPick) {
+        cardsInHand.add(cardToPick);
     }
 }

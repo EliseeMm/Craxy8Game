@@ -36,8 +36,8 @@ public class DealerTest {
 
     @Test
     void dealtCards2Players(){
-        Player player1 = new Player();
-        Player player2 = new Player();
+        Player player1 = new Player("John");
+        Player player2 = new Player("Becky");
 
         ArrayList<Player> players = new ArrayList<>();
         players.add(player1);
@@ -54,10 +54,10 @@ public class DealerTest {
 
     @Test
     void dealtCards4Players(){
-        Player player1 = new Player();
-        Player player2 = new Player();
-        Player player3 = new Player();
-        Player player4 = new Player();
+        Player player1 = new Player("A");
+        Player player2 = new Player("B");
+        Player player3 = new Player("c");
+        Player player4 = new Player("D");
 
         ArrayList<Player> players = new ArrayList<>();
         players.add(player1);
