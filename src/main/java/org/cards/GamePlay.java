@@ -15,6 +15,7 @@ public class GamePlay {
     private Player currentPlayer;
     private Card centreCard;
     ArrayList<Card> cardsToHandToPlayer = new ArrayList<>();
+    private String suitWanted = "";
     public GamePlay(ArrayList<Player> gamePlayers,Stack<Card> stockPile,Card centreCard){
         this.gamePlayers = gamePlayers;
         this.stockPile = stockPile;
@@ -39,26 +40,17 @@ public class GamePlay {
     public boolean play(JSONObject action){
         String name = action.getString("name");
         if(currentPlayer.getPlayerName().equals(name)){
-            switch (action.getString("action")){
-                case "discard":
-                    JSONObject cardJSON = action.getJSONObject("card");
-                    Card card = new Card(cardJSON.getString("suit"),cardJSON.getString("number"));
-                    cardPlacedOnDiscardPile(currentPlayer,card);
-                    break;
-                case "accept":
-                    acceptCards();
-                    break;
-                case "reject":
-                    rejectCards();
-                    break;
-                case "pick":
-                    playerPicksUpCard(currentPlayer);
-                    break;
-                case "switch":
-
+            switch (action.getString("action")) {
+                case "discard" -> {
+                    return cardPlacedOnDiscardPile(currentPlayer, action);
+                }
+                case "accept" -> {
+                    return acceptCards();
+                }
+                default-> {
+                    return playerPicksUpCard(currentPlayer);
+                }
             }
-
-            return true;
         }
         return false;
     }
@@ -66,38 +58,53 @@ public class GamePlay {
     /*
     places the players card on the discard  pile if the card is a 2
      */
-    private boolean cardPlacedOnDiscardPile(Player player,Card card){
-        player.placeCardDown(card);
-        if(card.number().equals(centreCard.number()) || card.suit().equals(centreCard.suit())) {
-            if (card.number().matches("\\d+") && card.number().equals("2")) {
-                    makingAPlayerPickUp(2);
-                }
-            else if (card.number().equals("J")) {
-                reverseList();
-            } else if (card.number().equals("7")) {
-                skipTheNextPlayer();
-            }
-            discardPile.push(card);
-            centreCard = discardPile.peek();
-            return true;
-            }
+    private boolean cardPlacedOnDiscardPile(Player player,JSONObject action){
+        JSONObject cardJSON = action.getJSONObject("card");
+        Card card = new Card(cardJSON.getString("suit"), cardJSON.getString("number"));
+        if(!suitWanted.isEmpty() && matchesSuitWanted(card)){
+            suitWanted = "";
+            return straightForward(player,card);
+
+        } else if (!suitWanted.isEmpty() && !matchesSuitWanted(card)) {
+            return false;
+
+        }
         else if (card.number().equals("Joker")) {
             makingAPlayerPickUp(5);
-            discardPile.push(card);
-            centreCard = discardPile.peek();
+            cardPlaced(player,card);
             return true;
+        }
+        else if (card.number().equals("A")) {
+            if (!cardsToHandToPlayer.isEmpty()) {
+                rejectCards();
+            }
+            cardPlaced(player,card);
+            return true;
+        } else if (card.number().equals("8")) {
+            setSuitWanted(action.getString("arguments"));
+            cardPlaced(player,card);
+            nextPlayer();
+            return true;
+        }
+        else if(card.number().equals(centreCard.number()) || card.suit().equals(centreCard.suit())) {
+            return straightForward(player,card);
         }
         return false;
     }
-    private void playerPicksUpCard(Player player){
+    private boolean playerPicksUpCard(Player player){
         Card cardToPick = stockPile.pop();
         player.pickUpCard(cardToPick);
+        if(isStockPileLow()){
+            restockFromDiscardPile();
+        }
         nextPlayer();
+        return true;
     }
 
     // if a player plays the 7 card it skips the player immediately after them
     private void skipTheNextPlayer(){
         int indexOfCurrentPlayer = gamePlayers.indexOf(currentPlayer);
+
         if(indexOfCurrentPlayer == gamePlayers.size()-1 && gamePlayers.size() > 2){
             currentPlayer = gamePlayers.get(1);
         } else if (indexOfCurrentPlayer == gamePlayers.size()-1) {
@@ -139,14 +146,18 @@ public class GamePlay {
         nextPlayer();
     }
 
-    private void acceptCards(){
+    private boolean acceptCards(){
         for (Card card: cardsToHandToPlayer
              ) {
             currentPlayer.pickUpCard(card);
         }
         cardsToHandToPlayer.clear();
 
+        if(isStockPileLow()){
+            restockFromDiscardPile();
+        }
         nextPlayer();
+        return true;
     }
 
     public Card getCentreCard() {
@@ -157,9 +168,6 @@ public class GamePlay {
         return currentPlayer;
     }
 
-    public void requestSuit(){
-
-    }
 
     public void nextPlayer(){
         int indexOfCurrentPlayer = gamePlayers.indexOf(currentPlayer);
@@ -168,5 +176,50 @@ public class GamePlay {
         }else {
             currentPlayer = gamePlayers.get(gamePlayers.indexOf(currentPlayer) + 1);
         }
+    }
+
+    private boolean isStockPileLow(){
+        return stockPile.size() <= 10;
+    }
+
+    private void cardPlaced(Player player,Card card){
+        discardPile.push(card);
+        centreCard = discardPile.peek();
+        player.placeCardDown(card);
+    }
+
+    private void restockFromDiscardPile(){
+        centreCard = discardPile.pop();
+
+        while (!discardPile.empty()){
+            Card card = discardPile.pop();
+            stockPile.add(card);
+        }
+        Collections.shuffle(stockPile);
+    }
+
+    public void setCentreCard(Card card){
+        centreCard = card;
+    }
+
+    public boolean matchesSuitWanted(Card card){
+        return  suitWanted.equals(card.suit());
+    }
+
+    public void setSuitWanted(String suit){
+        suitWanted = suit;
+    }
+
+    private boolean straightForward(Player player,Card card){
+        if (card.number().matches("\\d+") && card.number().equals("2")) {
+            makingAPlayerPickUp(2);
+        }
+        else if (card.number().equals("J")) {
+            reverseList();
+        } else if (card.number().equals("7")) {
+            skipTheNextPlayer();
+        }
+        cardPlaced(player,card);
+        return true;
     }
 }

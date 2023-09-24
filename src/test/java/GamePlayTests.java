@@ -16,6 +16,7 @@ public class GamePlayTests {
     private Player player1;
     private Player player2;
     private Dealer dealer;
+    private ArrayList<Player> players;
 
     @BeforeEach
     void gameSetUp(){
@@ -23,6 +24,10 @@ public class GamePlayTests {
         player1 = new Player("Iron");
         player2 = new Player("Man");
         dealer = new Dealer(deckOfCards);
+
+        players = new ArrayList<>();
+        players.add(player1);
+        players.add(player2);
     }
 
     @Test
@@ -43,7 +48,7 @@ public class GamePlayTests {
         discardPileAtBeginning.addAll(gamePlay.getDiscardPile());
 
         // json request
-        JSONObject request = generateJson("Iron","discard","Spades","King");
+        JSONObject request = generateJson("Iron","discard","Spades","King","");
 
         // execute the request in game
         gamePlay.play(request);
@@ -57,9 +62,6 @@ public class GamePlayTests {
 
     @Test
     void playerPicksUpCard(){
-        ArrayList<Player> players = new ArrayList<>();
-        players.add(player1);
-        players.add(player2);
         dealer.dealCards(players);
 
         Card centreCard = dealer.setCentreCard();
@@ -73,7 +75,7 @@ public class GamePlayTests {
         beginningStockPile.addAll(gamePlay.getStockPile());
 
         // json request
-        JSONObject request = generateJson("Iron","pick","","");
+        JSONObject request = generateJson("Iron","pick","","","");
 
         // execute the request in game
         gamePlay.play(request);
@@ -84,10 +86,6 @@ public class GamePlayTests {
 
     @Test
     void playerGivesNextPlayer2Cards(){
-        ArrayList<Player> players = new ArrayList<>();
-        players.add(player1);
-        players.add(player2);
-
         Card centreCard = dealer.setCentreCard();
 
         Stack<Card> stockPileBeginning = new Stack<>();
@@ -95,13 +93,14 @@ public class GamePlayTests {
 
         ArrayList<Card> cardsInitial = new ArrayList<>(player2.getCardsInHand());
 
-        JSONObject request1 = generateJson("Iron","discard","Hearts","2");
+        JSONObject request1 = generateJson("Iron","discard","Hearts","2","");
 
         GamePlay gamePlay = new GamePlay(players,stockPileBeginning,centreCard);
+        gamePlay.setCentreCard(new Card("Hearts","7"));
 
         gamePlay.play(request1);
 
-        JSONObject request2 = generateJson("Man","accept","","");
+        JSONObject request2 = generateJson("Man","accept","","","");
 
         gamePlay.play(request2);
         // check that player2 has 2 more cards than before
@@ -111,10 +110,6 @@ public class GamePlayTests {
 
     @Test
     void playerGivesNextPlayer2CardsReject(){
-        ArrayList<Player> players = new ArrayList<>();
-        players.add(player1);
-        players.add(player2);
-
         Card centreCard = dealer.setCentreCard();
 
         Stack<Card> stockPileBeginning = new Stack<>();
@@ -122,13 +117,13 @@ public class GamePlayTests {
 
         ArrayList<Card> cardsInitial = new ArrayList<>(player2.getCardsInHand());
 
-        JSONObject request1 = generateJson("Iron","discard","Hearts","2");
+        JSONObject request1 = generateJson("Iron","discard","Hearts","2","");
 
         GamePlay gamePlay = new GamePlay(players,stockPileBeginning,centreCard);
 
         gamePlay.play(request1);
 
-        JSONObject request2 = generateJson("Man","reject","","");
+        JSONObject request2 = generateJson("Man","Discard","Spades","A","");
 
         gamePlay.play(request2);
         // check that player2 has the same cards as before
@@ -137,9 +132,7 @@ public class GamePlayTests {
     }
     @Test
     void playerReversesOrder(){
-        ArrayList<Player> players = new ArrayList<>();
-        players.add(player1);
-        players.add(player2);
+
 
         ArrayList<Player> playersOrderInitially = new ArrayList<>(players);
 
@@ -149,9 +142,10 @@ public class GamePlayTests {
         stockPileBeginning.addAll(dealer.getDeckOfCards());
 
 
-        JSONObject request1 = generateJson("Iron","discard","Hearts","J");
+        JSONObject request1 = generateJson("Iron","discard","Hearts","J","");
 
         GamePlay gamePlay = new GamePlay(players,stockPileBeginning,centreCard);
+        gamePlay.setCentreCard(new Card("Hearts","7"));
         gamePlay.play(request1);
 
         // ensure that the order has been reversed by checking that the first player has changed
@@ -163,10 +157,7 @@ public class GamePlayTests {
 
     @Test
     void skipTheNextPlayer(){
-        ArrayList<Player> players = new ArrayList<>();
         Player player3 = new Player("Kazekage");
-        players.add(player1);
-        players.add(player2);
         players.add(player3);
 
         ArrayList<Player> playersOrderInitially = new ArrayList<>(players);
@@ -177,15 +168,39 @@ public class GamePlayTests {
         stockPileBeginning.addAll(dealer.getDeckOfCards());
 
 
-        JSONObject request1 = generateJson("Iron","discard","Clubs","7");
+        JSONObject request1 = generateJson("Iron","discard","Clubs","7","");
 
         GamePlay gamePlay = new GamePlay(players,stockPileBeginning,centreCard);
+        gamePlay.setCentreCard(new Card("Clubs","8"));
         gamePlay.play(request1);
 
         assertEquals("Kazekage",gamePlay.getCurrentPlayer().getPlayerName());
     }
 
-    JSONObject generateJson(String name, String action, String suit,String number  ){
+    @Test
+    void playerChangesSuit(){
+
+        // player one using an 8 to request a change of suit to Spades
+        JSONObject request1 = generateJson("Iron","discard","Hearts","8","Spades");
+
+        Card centreCard = dealer.setCentreCard();
+
+        Stack<Card> stockPileBeginning = new Stack<>();
+        stockPileBeginning.addAll(dealer.getDeckOfCards());
+
+        GamePlay gamePlay = new GamePlay(players,stockPileBeginning,centreCard);
+
+        gamePlay.setCentreCard(new Card("Hearts","7"));
+
+        gamePlay.play(request1);
+
+        // player 2 plays a Clubs card instead
+        JSONObject request2 = generateJson("Man","discard","Clubs","3","");
+
+        assertFalse(gamePlay.play(request2)); // play returns false
+    }
+
+    JSONObject generateJson(String name, String action, String suit,String number,String arguments){
         JSONObject request = new JSONObject();
         JSONObject card = new JSONObject();
         request.put("name",name);
@@ -195,6 +210,7 @@ public class GamePlayTests {
         card.put("number",number);
 
         request.put("card",card);
+        request.put("arguments",arguments);
 
         return request;
     }

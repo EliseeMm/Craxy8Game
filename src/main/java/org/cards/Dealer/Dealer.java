@@ -17,22 +17,7 @@ public class Dealer {
     }
 
     public void shuffleCards(){
-        List<Card>  cards  = new ArrayList<>();
-
-        // Pops a card from the deck and adds it to a list while the deck is not empty
-        while (!cardStack.empty()){
-            Card card = cardStack.pop();
-            cards.add(card);
-        }
-
-        // Shuffles the list of cards
-        Collections.shuffle(cards);
-
-        // Add the cards back to the deck
-        for (Card card: cards
-             ) {
-            cardStack.push(card);
-        }
+        Collections.shuffle(cardStack);
 
     }
 
