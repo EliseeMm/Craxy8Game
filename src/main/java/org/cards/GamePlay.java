@@ -54,6 +54,8 @@ public class GamePlay {
                 case "pick":
                     playerPicksUpCard(currentPlayer);
                     break;
+                case "switch":
+
             }
 
             return true;
@@ -66,21 +68,26 @@ public class GamePlay {
      */
     private boolean cardPlacedOnDiscardPile(Player player,Card card){
         player.placeCardDown(card);
-        if(card.number().matches("\\d+") && card.number().equals("2") || card.number().equals("Joker")) {
-            if (card.number().equals("Joker")) {
-                makingAPlayerPickUp(5);
-            }else {
-                makingAPlayerPickUp(2);
+        if(card.number().equals(centreCard.number()) || card.suit().equals(centreCard.suit())) {
+            if (card.number().matches("\\d+") && card.number().equals("2")) {
+                    makingAPlayerPickUp(2);
+                }
+            else if (card.number().equals("J")) {
+                reverseList();
+            } else if (card.number().equals("7")) {
+                skipTheNextPlayer();
             }
-        } else if (card.number().equals("J")) {
-            reverseList();
-        } else if (card.number().equals("7")) {
-            skipTheNextPlayer();
+            discardPile.push(card);
+            centreCard = discardPile.peek();
+            return true;
+            }
+        else if (card.number().equals("Joker")) {
+            makingAPlayerPickUp(5);
+            discardPile.push(card);
+            centreCard = discardPile.peek();
+            return true;
         }
-
-        discardPile.push(card);
-        centreCard = discardPile.peek();
-        return true;
+        return false;
     }
     private void playerPicksUpCard(Player player){
         Card cardToPick = stockPile.pop();
@@ -148,6 +155,10 @@ public class GamePlay {
 
     public Player getCurrentPlayer(){
         return currentPlayer;
+    }
+
+    public void requestSuit(){
+
     }
 
     public void nextPlayer(){
