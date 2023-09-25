@@ -4,7 +4,6 @@ import org.cards.Players.Player;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Stack;
 
@@ -39,7 +38,11 @@ public class GamePlay {
 
     public boolean play(JSONObject action){
         String name = action.getString("name");
-        if(currentPlayer.getPlayerName().equals(name)){
+        String request = action.getString("action");
+        if(request.equals("quit")){
+            removePlayer(name);
+        }
+        else if(currentPlayer.getPlayerName().equals(name)){
             switch (action.getString("action")) {
                 case "discard" -> {
                     return cardPlacedOnDiscardPile(currentPlayer, action);
@@ -174,7 +177,7 @@ public class GamePlay {
         if(indexOfCurrentPlayer == gamePlayers.size()-1){
             currentPlayer = gamePlayers.get(0);
         }else {
-            currentPlayer = gamePlayers.get(gamePlayers.indexOf(currentPlayer) + 1);
+            currentPlayer = gamePlayers.get(indexOfCurrentPlayer + 1);
         }
     }
 
@@ -219,7 +222,23 @@ public class GamePlay {
         } else if (card.number().equals("7")) {
             skipTheNextPlayer();
         }
+        else {
+            nextPlayer();
+        }
         cardPlaced(player,card);
         return true;
+    }
+    public void removePlayer(String name){
+
+        for (Player player: gamePlayers
+             ) {
+            if (player.getPlayerName().equals(name)){
+                for (Card card: player.getCardsInHand()
+                ) {
+                    stockPile.push(card);
+                }
+                gamePlayers.remove(player);
+            }
+        }
     }
 }
