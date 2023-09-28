@@ -5,15 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="461c7f13-49d5-43a5-b227-dc9616425e9a" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023_09_24_06_12_pm__Changes_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_rebase__Changes_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/cards/Dealer/Dealer.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/cards/GamePlay.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/cards/GamePlay.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/cards/Players/Player.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/DealerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/DealerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/GamePlayTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/GamePlayTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/PlayerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/PlayerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/WebSocketServer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/Websocket.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/webclient/client.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/webclient/clientmain.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,6 +24,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -34,6 +35,9 @@
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 0
@@ -52,7 +56,25 @@
     &quot;git-widget-placeholder&quot;: &quot;master&quot;
   }
 }</component>
-  <component name="RunManager" selected="JUnit.PlayerTest.playerPickUpCardFromStack">
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\admin\Music\Bethel\Steffany\Desktop\py\Craxy8Game\src\main\resources\public" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.WebSocket">
+    <configuration name="WebSocket" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.WebSocket" />
+      <module name="Crazy8Server" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="All in Crazy8Server" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Crazy8Server" />
       <option name="PACKAGE_NAME" value="" />
@@ -65,15 +87,6 @@
       <module name="Crazy8Server" />
       <option name="PACKAGE_NAME" value="" />
       <option name="MAIN_CLASS_NAME" value="CardTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="DealerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="Crazy8Server" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="DealerTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -101,18 +114,18 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.WebSocket" />
         <item itemvalue="JUnit.PlayerTest.playerPickUpCardFromStack" />
         <item itemvalue="JUnit.CardTest" />
         <item itemvalue="JUnit.All in Crazy8Server" />
         <item itemvalue="JUnit.PlayerTest.playerPlaysCard" />
-        <item itemvalue="JUnit.DealerTest" />
       </list>
     </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="d5e60bbf-a240-43e5-89f5-f29c13a6960d" name="Changes" comment="" />
+      <changelist id="461c7f13-49d5-43a5-b227-dc9616425e9a" name="Changes" comment="" />
       <created>1695282443273</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
