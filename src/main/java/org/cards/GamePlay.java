@@ -1,6 +1,6 @@
 package org.cards;
 
-import org.cards.Players.Player;
+import org.Players.Player;
 import org.json.JSONObject;
 
 import java.util.ArrayList;

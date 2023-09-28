@@ -1,8 +1,9 @@
-package org.cards.Dealer;
+package org.Dealer;
 
+import org.Players.Player;
 import org.cards.Card;
 import org.cards.DeckOfCards;
-import org.cards.Players.Player;
+
 import java.util.*;
 
 /*

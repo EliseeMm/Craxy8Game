@@ -1,7 +1,7 @@
+import org.Dealer.Dealer;
+import org.Players.Player;
 import org.cards.Card;
-import org.cards.Dealer.Dealer;
 import org.cards.DeckOfCards;
-import org.cards.Players.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

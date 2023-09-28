@@ -1,8 +1,8 @@
+import org.Dealer.Dealer;
+import org.Players.Player;
 import org.cards.Card;
-import org.cards.Dealer.Dealer;
 import org.cards.DeckOfCards;
 import org.cards.GamePlay;
-import org.cards.Players.Player;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -159,8 +159,6 @@ public class GamePlayTests {
     void skipTheNextPlayer(){
         Player player3 = new Player("Kazekage");
         players.add(player3);
-
-        ArrayList<Player> playersOrderInitially = new ArrayList<>(players);
 
         Card centreCard = dealer.setCentreCard();
 

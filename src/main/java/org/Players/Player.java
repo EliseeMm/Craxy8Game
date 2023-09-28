@@ -1,4 +1,4 @@
-package org.cards.Players;
+package org.Players;
 
 import org.cards.Card;
 import java.util.ArrayList;
