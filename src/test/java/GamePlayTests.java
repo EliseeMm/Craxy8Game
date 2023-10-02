@@ -48,7 +48,7 @@ public class GamePlayTests {
         discardPileAtBeginning.addAll(gamePlay.getDiscardPile());
 
         // json request
-        JSONObject request = generateJson("Iron","discard","Spades","King","");
+        JSONObject request = generateJson("Iron","discard","S","King","");
 
         // execute the request in game
         gamePlay.play(request);
@@ -57,7 +57,7 @@ public class GamePlayTests {
         assertTrue(discardPileAtBeginning.size() < gamePlay.getDiscardPile().size());
 
         // ensure that the card at the centre of game is the card the player just played
-        assertEquals(new Card("Spades","King"),gamePlay.getCentreCard());
+        assertEquals(new Card("S","King"),gamePlay.getCentreCard());
     }
 
     @Test
@@ -93,10 +93,10 @@ public class GamePlayTests {
 
         ArrayList<Card> cardsInitial = new ArrayList<>(player2.getCardsInHand());
 
-        JSONObject request1 = generateJson("Iron","discard","Hearts","2","");
+        JSONObject request1 = generateJson("Iron","discard","H","2","");
 
         GamePlay gamePlay = new GamePlay(players,stockPileBeginning,centreCard);
-        gamePlay.setCentreCard(new Card("Hearts","7"));
+        gamePlay.setCentreCard(new Card("H","7"));
 
         gamePlay.play(request1);
 
@@ -117,13 +117,13 @@ public class GamePlayTests {
 
         ArrayList<Card> cardsInitial = new ArrayList<>(player2.getCardsInHand());
 
-        JSONObject request1 = generateJson("Iron","discard","Hearts","2","");
+        JSONObject request1 = generateJson("Iron","discard","H","2","");
 
         GamePlay gamePlay = new GamePlay(players,stockPileBeginning,centreCard);
 
         gamePlay.play(request1);
 
-        JSONObject request2 = generateJson("Man","Discard","Spades","A","");
+        JSONObject request2 = generateJson("Man","Discard","S","A","");
 
         gamePlay.play(request2);
         // check that player2 has the same cards as before
@@ -142,10 +142,10 @@ public class GamePlayTests {
         stockPileBeginning.addAll(dealer.getDeckOfCards());
 
 
-        JSONObject request1 = generateJson("Iron","discard","Hearts","J","");
+        JSONObject request1 = generateJson("Iron","discard","H","J","");
 
         GamePlay gamePlay = new GamePlay(players,stockPileBeginning,centreCard);
-        gamePlay.setCentreCard(new Card("Hearts","7"));
+        gamePlay.setCentreCard(new Card("H","7"));
         gamePlay.play(request1);
 
         // ensure that the order has been reversed by checking that the first player has changed
@@ -166,10 +166,10 @@ public class GamePlayTests {
         stockPileBeginning.addAll(dealer.getDeckOfCards());
 
 
-        JSONObject request1 = generateJson("Iron","discard","Clubs","7","");
+        JSONObject request1 = generateJson("Iron","discard","C","7","");
 
         GamePlay gamePlay = new GamePlay(players,stockPileBeginning,centreCard);
-        gamePlay.setCentreCard(new Card("Clubs","8"));
+        gamePlay.setCentreCard(new Card("C","8"));
         gamePlay.play(request1);
 
         assertEquals("Kazekage",gamePlay.getCurrentPlayer().getPlayerName());
@@ -179,7 +179,7 @@ public class GamePlayTests {
     void playerChangesSuit(){
 
         // player one using an 8 to request a change of suit to Spades
-        JSONObject request1 = generateJson("Iron","discard","Hearts","8","Spades");
+        JSONObject request1 = generateJson("Iron","discard","H","8","S");
 
         Card centreCard = dealer.setCentreCard();
 
@@ -193,7 +193,7 @@ public class GamePlayTests {
         gamePlay.play(request1);
 
         // player 2 plays a Clubs card instead
-        JSONObject request2 = generateJson("Man","discard","Clubs","3","");
+        JSONObject request2 = generateJson("Man","discard","C","3","");
 
         assertFalse(gamePlay.play(request2)); // play returns false
     }

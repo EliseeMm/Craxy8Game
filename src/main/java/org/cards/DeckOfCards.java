@@ -16,10 +16,10 @@ public class DeckOfCards {
 
     private Stack<Card> generateDeck(){
         Stack<Card> cards = new Stack<>();
-        String[] suits = {"Hearts","Diamonds","Clubs","Spades"};
-        String[] numbers = {"A","2","3","4","5","6","7","8","9","10","Jack","Queen","King"};
+        String[] suits = {"H","D","C","S"};
+        String[] numbers = {"A","2","3","4","5","6","7","8","9","10","J","Q","K"};
 
-        String[] jokers = {"Black and White","Color"};
+        String[] jokers = {"Black_White","Color"};
 
         for (String suit: suits
              ) {

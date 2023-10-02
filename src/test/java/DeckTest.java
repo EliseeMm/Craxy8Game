@@ -32,16 +32,16 @@ public class DeckTest {
         while (!cards.empty()){
             Card card =  cards.pop();
             switch (card.suit()){
-                case "Hearts":
+                case "H":
                     hearts += 1;
                     break;
-                case "Spades":
+                case "S":
                     spades+= 1;
                     break;
-                case "Clubs":
+                case "C":
                     clubs += 1;
                     break;
-                case "Diamonds":
+                case "D":
                     diamonds += 1;
                     break;
                 default:

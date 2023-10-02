@@ -9,28 +9,28 @@ public class CardTest {
     private Card card;
     @BeforeEach
      void createCard(){
-        card = new Card("Spades", "A");
+        card = new Card("S", "A");
     }
 
     @Test
     void cardGetters(){
         assertEquals("A",card.number());
-        assertEquals("Spades",card.suit());
+        assertEquals("S",card.suit());
     }
 
     @Test
     void stringFormat(){
-        assertEquals("A of Spades",card.toString());
+        assertEquals("A of S",card.toString());
     }
 
     @Test
     void equalsToAnotherCard(){
-        Card newCard = new Card("Spades","A");
+        Card newCard = new Card("S","A");
         assertEquals(card,newCard);
     }
     @Test
     void notEqual(){
-        Card newCard = new Card("Clubs","2");
+        Card newCard = new Card("C","2");
         assertNotEquals(card,newCard);
     }
 }
