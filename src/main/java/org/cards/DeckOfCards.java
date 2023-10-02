@@ -19,7 +19,7 @@ public class DeckOfCards {
         String[] suits = {"H","D","C","S"};
         String[] numbers = {"A","2","3","4","5","6","7","8","9","10","J","Q","K"};
 
-        String[] jokers = {"Black_White","Color"};
+        String[] jokers = {"1","2"};
 
         for (String suit: suits
              ) {
@@ -31,7 +31,7 @@ public class DeckOfCards {
         }
 
         for (String joker: jokers){
-            Card card = new Card("Joker",joker);
+            Card card = new Card("J",joker);
             cards.push(card);
         }
         return cards;
