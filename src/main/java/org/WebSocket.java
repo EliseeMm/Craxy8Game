@@ -28,10 +28,16 @@ public class WebSocket {
 
     private static final Map<WsContext, Player> userPlayerMap = new ConcurrentHashMap<>();
     private static GamePlay gamePlay;
+    private static final DeckOfCards cards = new DeckOfCards();
+
+    private static final Dealer dealer = new Dealer(cards);
+    private static Card centreCard;
     
     // private static int nextUserNumber = 1; // Assign to username for next connecting user
 
     public static void main(String[] args) {
+        dealer.shuffleCards();
+        centreCard = dealer.setCentreCard();
         Javalin app = Javalin.create(config -> {
             config.staticFiles.add("/public", Location.CLASSPATH);
         }).start(7070);
@@ -46,18 +52,12 @@ public class WebSocket {
   
             });
             ws.onMessage(ctx -> {
-                DeckOfCards cards = new DeckOfCards();
-
-                Dealer dealer = new Dealer(cards);
-                dealer.shuffleCards();
-                Card centreCard = dealer.setCentreCard();
 //                GamePlay gamePlay = new GamePlay(new ArrayList<>(userPlayerMap.values()),dealer.getDeckOfCards(),centreCard);
 
 
                 JSONObject request = new JSONObject(ctx.message());
                 if(request.getString("command").equals("join")){
-
-
+                    dealer.shuffleCards();
                     if(userPlayerMap.size() < 13 ) {
                         String name = request.getString("name");
                         Player player = new Player(name);
@@ -86,23 +86,25 @@ public class WebSocket {
                 if(request.getString("command").equals("gameplay")) {
 
                     String playerName = userPlayerMap.get(ctx).getPlayerName();
-                    System.out.println("beginning :"+userPlayerMap.get(ctx).getCardsInHand());
+                    System.out.println("beginning :" + userPlayerMap.get(ctx).getCardsInHand());
 
-                    request.put("name",playerName);
+                    request.put("name", playerName);
                     gamePlay.play(request);
-                    System.out.println("New :"+userPlayerMap.get(ctx).getCardsInHand());
+                    System.out.println("New :" + userPlayerMap.get(ctx).getCardsInHand());
                     JSONObject deal = new JSONObject();
 
 
                     deal.put("message", "gameplay");
                     deal.put("cards", userPlayerMap.get(ctx).getCardsInHand());
 
-                    ctx.send(Map.of(
-                                    "messageType", "gameplay",
-                                    "cards", userPlayerMap.get(ctx).getCardsInHand(),
-                                    "centreCard", gamePlay.getCentreCard()
-                            )
-                    );
+                    for (WsContext context : userPlayerMap.keySet()) {
+                        context.send(Map.of(
+                                        "messageType", "gameplay",
+                                        "cards", userPlayerMap.get(context).getCardsInHand(),
+                                        "centreCard", gamePlay.getCentreCard()
+                                )
+                        );
+                    }
                 }
 
             });
