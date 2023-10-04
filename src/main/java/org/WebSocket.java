@@ -82,7 +82,7 @@ public class WebSocket {
                         );
                     }
 
-                    if(userPlayerMap.size() == 2){
+                    if(userPlayerMap.size() == numberOfPlayers){
                         dealer.shuffleCards();
                         centreCard = dealer.setCentreCard();
                         gamePlay = new GamePlay(new ArrayList<>(userPlayerMap.values()),dealer.getDeckOfCards(),centreCard);
