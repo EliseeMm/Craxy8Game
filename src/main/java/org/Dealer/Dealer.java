@@ -40,7 +40,20 @@ public class Dealer {
     }
 
     public Card setCentreCard(){
-        return cardStack.pop();
+        ArrayList<Card> checkedCards = new ArrayList<>();
+        Card card;
+        do {
+            card  = cardStack.pop();
+            checkedCards.add(card);
+        } while (card.number().equals("8") || card.number().equals("7") || card.number().equals("2") ||
+                card.number().equals("A") || card.number().equals("J") || card.equals(new Card("J","1"))||
+                card.equals(new Card("J","2")));
+
+        for (Card c: checkedCards
+             ) {
+            cardStack.push(c);
+        }
+        return card;
     }
     public Stack<Card> getDeckOfCards(){
         return cardStack;

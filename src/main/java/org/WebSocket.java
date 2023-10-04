@@ -4,10 +4,7 @@ import io.javalin.Javalin;
 import io.javalin.http.staticfiles.Location;
 import io.javalin.websocket.WsContext;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.Dealer.Dealer;
@@ -15,8 +12,9 @@ import org.Players.Player;
 import org.cards.Card;
 import org.cards.DeckOfCards;
 import org.cards.GamePlay;
-import org.eclipse.jetty.websocket.api.Session;
 import org.json.JSONObject;
+
+import javax.sound.midi.Soundbank;
 
 import static j2html.TagCreator.article;
 import static j2html.TagCreator.attrs;
@@ -31,13 +29,15 @@ public class WebSocket {
     private static final DeckOfCards cards = new DeckOfCards();
 
     private static final Dealer dealer = new Dealer(cards);
+    private static Scanner scanner = new Scanner(System.in);
     private static Card centreCard;
+    private static int numberOfPlayers;
     
     // private static int nextUserNumber = 1; // Assign to username for next connecting user
 
     public static void main(String[] args) {
-        dealer.shuffleCards();
-        centreCard = dealer.setCentreCard();
+        System.out.print("How many players: ");
+        numberOfPlayers = scanner.nextInt();
         Javalin app = Javalin.create(config -> {
             config.staticFiles.add("/public", Location.CLASSPATH);
         }).start(7070);
@@ -52,13 +52,11 @@ public class WebSocket {
   
             });
             ws.onMessage(ctx -> {
-//                GamePlay gamePlay = new GamePlay(new ArrayList<>(userPlayerMap.values()),dealer.getDeckOfCards(),centreCard);
-
-
                 JSONObject request = new JSONObject(ctx.message());
                 if(request.getString("command").equals("join")){
                     dealer.shuffleCards();
-                    if(userPlayerMap.size() < 13 ) {
+
+                    if(userPlayerMap.size() < numberOfPlayers ) {
                         String name = request.getString("name");
                         Player player = new Player(name);
 
@@ -72,15 +70,31 @@ public class WebSocket {
                         deal.put("cards", player.getCardsInHand());
 
                         ctx.send(Map.of(
-                                        "messageType", "gameplay",
-                                        "cards", player.getCardsInHand(),
-                                        "centreCard", centreCard
+                                        "messageType", "waitingPlayers",
+                                        "message", "Waiting for " + String.valueOf(numberOfPlayers - userPlayerMap.size()) + " to join"
                                 )
+
+//                        ctx.send(Map.of(
+//                                        "messageType", "gameplay",
+//                                        "cards", player.getCardsInHand(),
+//                                        "centreCard", centreCard
+//                                )
                         );
                     }
 
-                    if(userPlayerMap.size() == 1){
+                    if(userPlayerMap.size() == 2){
+                        dealer.shuffleCards();
+                        centreCard = dealer.setCentreCard();
                         gamePlay = new GamePlay(new ArrayList<>(userPlayerMap.values()),dealer.getDeckOfCards(),centreCard);
+
+                        for (WsContext context : userPlayerMap.keySet()) {
+                            context.send(Map.of(
+                                            "messageType", "gameplay",
+                                            "cards", userPlayerMap.get(context).getCardsInHand(),
+                                            "centreCard", gamePlay.getCentreCard()
+                                    )
+                            );
+                        }
                     }
                 }
                 if(request.getString("command").equals("gameplay")) {
