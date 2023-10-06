@@ -99,11 +99,11 @@ public class WebSocket {
                 if(request.getString("command").equals("gameplay")) {
 
                     String playerName = userPlayerMap.get(ctx).getPlayerName();
-                    System.out.println("beginning :" + userPlayerMap.get(ctx).getCardsInHand());
+                   
 
                     request.put("name", playerName);
                     gamePlay.play(request);
-                    System.out.println("New :" + userPlayerMap.get(ctx).getCardsInHand());
+                
                     JSONObject deal = new JSONObject();
 
 
@@ -118,6 +118,7 @@ public class WebSocket {
                                 )
                         );
                     }
+                    
                 }
 
             });

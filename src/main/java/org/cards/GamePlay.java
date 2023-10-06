@@ -14,6 +14,10 @@ public class GamePlay {
     private Player currentPlayer;
     private Card centreCard;
     ArrayList<Card> cardsToHandToPlayer = new ArrayList<>();
+    public ArrayList<Card> getCardsToHandToPlayer() {
+        System.out.println(cardsToHandToPlayer.size());
+        return cardsToHandToPlayer;
+    }
     private String suitWanted = "";
     public GamePlay(ArrayList<Player> gamePlayers,Stack<Card> stockPile,Card centreCard){
         this.gamePlayers = gamePlayers;
@@ -72,9 +76,13 @@ public class GamePlay {
             return false;
 
         }
-        else if (card.number().equals("Joker")) {
+
+
+        else if (card.suit().equals("J")) {
+            
             makingAPlayerPickUp(5);
             cardPlaced(player,card);
+            System.out.println(getCardsToHandToPlayer());
             return true;
         }
         else if (card.number().equals("A")) {
@@ -92,8 +100,35 @@ public class GamePlay {
         else if(card.number().equals(centreCard.number()) || card.suit().equals(centreCard.suit())) {
             return straightForward(player,card);
         }
+        else if(centreCard.suit().equals("J")){
+            
+            if (card.suit().equals("J")) {
+                
+                makingAPlayerPickUp(5);
+                cardPlaced(player,card);
+                System.out.println(getCardsToHandToPlayer());
+                return true;
+            }
+            else if (card.number().equals("A")) {
+                if (!cardsToHandToPlayer.isEmpty()) {
+                    rejectCards();
+                }
+                cardPlaced(player,card);
+                return true;
+            } else if (card.number().equals("8")) {
+                setSuitWanted(action.getString("arguments"));
+                cardPlaced(player,card);
+                nextPlayer();
+                return true;
+            }
+            else if(card.number().equals(centreCard.number()) || card.suit().equals(centreCard.suit())) {
+                return straightForward(player,card);
+            }
+        }
+        
         return false;
     }
+
     private boolean playerPicksUpCard(Player player){
         Card cardToPick = stockPile.pop();
         player.pickUpCard(cardToPick);
@@ -215,7 +250,9 @@ public class GamePlay {
 
     private boolean straightForward(Player player,Card card){
         if (card.number().matches("\\d+") && card.number().equals("2")) {
+            
             makingAPlayerPickUp(2);
+            System.out.println(getCardsToHandToPlayer());
         }
         else if (card.number().equals("J")) {
             reverseList();
