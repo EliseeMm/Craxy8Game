@@ -121,7 +121,8 @@ public class WebSocket {
                                 context.send(Map.of(
                                         "messageType", "gameplay",
                                         "cards", userPlayerMap.get(context).getCardsInHand(),
-                                        "centreCard", gamePlay.getCentreCard()
+                                        "centreCard", gamePlay.getCentreCard(),
+                                        "currentPlayer",gamePlay.getCurrentPlayer().getPlayerName()
                                     )
                             );
                         }
