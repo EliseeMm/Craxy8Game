@@ -61,7 +61,7 @@ public class WebSocket {
 
 
                         userPlayerMap.put(ctx, player);
-                        dealer.dealCards(List.of(player));
+                        // dealer.dealCards(List.of(player));
                         JSONObject deal = new JSONObject();
 
 
@@ -83,7 +83,9 @@ public class WebSocket {
 
                     if(userPlayerMap.size() == numberOfPlayers){
                         dealer.shuffleCards();
+                        dealer.dealCards(new ArrayList<>(userPlayerMap.values()));
                         centreCard = dealer.setCentreCard();
+                
                         gamePlay = new GamePlay(new ArrayList<>(userPlayerMap.values()),dealer.getDeckOfCards(),centreCard);
 
                         for (WsContext context : userPlayerMap.keySet()) {
@@ -99,6 +101,7 @@ public class WebSocket {
                 if(request.getString("command").equals("gameplay")) {
 
                     String playerName = userPlayerMap.get(ctx).getPlayerName();
+                 
                    
 
                     request.put("name", playerName);
@@ -110,14 +113,25 @@ public class WebSocket {
                     deal.put("message", "gameplay");
                     deal.put("cards", userPlayerMap.get(ctx).getCardsInHand());
 
-                    for (WsContext context : userPlayerMap.keySet()) {
-                        context.send(Map.of(
+
+                    // if(!player.getCardsInHand().isEmpty()){
+                        
+
+                            for (WsContext context : userPlayerMap.keySet()) {
+                                context.send(Map.of(
                                         "messageType", "gameplay",
                                         "cards", userPlayerMap.get(context).getCardsInHand(),
                                         "centreCard", gamePlay.getCentreCard()
-                                )
-                        );
-                    }
+                                    )
+                            );
+                        }
+                    // }
+
+
+                    // else{
+                    //     System.out.printf("%s Has finished \n",player.getPlayerName());
+                    // }
+
                     
                 }
 

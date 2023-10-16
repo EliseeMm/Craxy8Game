@@ -90,6 +90,7 @@ public class GamePlay {
                 rejectCards();
             }
             cardPlaced(player,card);
+            nextPlayer();
             return true;
         } else if (card.number().equals("8")) {
             setSuitWanted(action.getString("arguments"));
@@ -114,6 +115,7 @@ public class GamePlay {
                     rejectCards();
                 }
                 cardPlaced(player,card);
+                nextPlayer();
                 return true;
             } else if (card.number().equals("8")) {
                 setSuitWanted(action.getString("arguments"));
@@ -121,7 +123,7 @@ public class GamePlay {
                 nextPlayer();
                 return true;
             }
-            else if(card.number().equals(centreCard.number()) || card.suit().equals(centreCard.suit())) {
+            else {
                 return straightForward(player,card);
             }
         }
@@ -174,7 +176,14 @@ public class GamePlay {
             cardsToHandToPlayer.add(card);
         }
         nextPlayer();
+
+        for(Card card: cardsToHandToPlayer){
+        currentPlayer.pickUpCard(card);
+        }
+
+        cardsToHandToPlayer.clear();
     }
+
     private void rejectCards(){
         for (Card card:cardsToHandToPlayer
              ) {
