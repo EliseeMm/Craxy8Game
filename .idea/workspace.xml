@@ -4,16 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="461c7f13-49d5-43a5-b227-dc9616425e9a" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023_09_24_06_12_pm__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_rebase__Changes_.xml" beforeDir="false" />
+    <list default="true" id="461c7f13-49d5-43a5-b227-dc9616425e9a" name="Changes" comment="Dealer will not set the centre card if it is a special card like 2,8,7,Jack,Ace and Jokers.&#10;&#10;Websocket replies with a waiting response if they are still player slots available">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/Main.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/WebSocketServer.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/Websocket.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/webclient/client.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/webclient/clientmain.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/WebSocket.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/WebSocket.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,6 +85,15 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="GamePlayTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Crazy8Server" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="GamePlayTests" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="PlayerTest.playerPickUpCardFromStack" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Crazy8Server" />
       <option name="PACKAGE_NAME" value="" />
@@ -102,23 +104,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="PlayerTest.playerPlaysCard" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="Crazy8Server" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="PlayerTest" />
-      <option name="METHOD_NAME" value="playerPlaysCard" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Application.WebSocket" />
+        <item itemvalue="JUnit.GamePlayTests" />
+        <item itemvalue="JUnit.All in Crazy8Server" />
         <item itemvalue="JUnit.PlayerTest.playerPickUpCardFromStack" />
         <item itemvalue="JUnit.CardTest" />
-        <item itemvalue="JUnit.All in Crazy8Server" />
-        <item itemvalue="JUnit.PlayerTest.playerPlaysCard" />
       </list>
     </recent_temporary>
   </component>
@@ -131,6 +123,55 @@
       <option name="presentableId" value="Default" />
       <updated>1695282443273</updated>
     </task>
+    <task id="LOCAL-00001" summary="Simplified card suits to capital first letters (H,D,C,S) as well as king,jack and queen to  K,Q,J&#10;&#10;Implementing a web socket server using javalin">
+      <option name="closed" value="true" />
+      <created>1696240120513</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1696240120513</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Changed Joker to J">
+      <option name="closed" value="true" />
+      <created>1696245019352</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1696245019352</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Working on game play using websocket request">
+      <option name="closed" value="true" />
+      <created>1696258248607</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1696258248607</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Working on broadcast message when a play is made">
+      <option name="closed" value="true" />
+      <created>1696342334878</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1696342334878</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Dealer will not set the centre card if it is a special card like 2,8,7,Jack,Ace and Jokers.&#10;&#10;Websocket replies with a waiting response if they are still player slots available">
+      <option name="closed" value="true" />
+      <created>1696402658472</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1696402658472</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Dealer will not set the centre card if it is a special card like 2,8,7,Jack,Ace and Jokers.&#10;&#10;Websocket replies with a waiting response if they are still player slots available">
+      <option name="closed" value="true" />
+      <created>1696433054070</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1696433054070</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -155,5 +196,13 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Simplified card suits to capital first letters (H,D,C,S) as well as king,jack and queen to  K,Q,J&#10;&#10;Implementing a web socket server using javalin" />
+    <MESSAGE value="Changed Joker to J" />
+    <MESSAGE value="Working on game play using websocket request" />
+    <MESSAGE value="Working on broadcast message when a play is made" />
+    <MESSAGE value="Dealer will not set the centre card if it is a special card like 2,8,7,Jack,Ace and Jokers.&#10;&#10;Websocket replies with a waiting response if they are still player slots available" />
+    <option name="LAST_COMMIT_MESSAGE" value="Dealer will not set the centre card if it is a special card like 2,8,7,Jack,Ace and Jokers.&#10;&#10;Websocket replies with a waiting response if they are still player slots available" />
   </component>
 </project>

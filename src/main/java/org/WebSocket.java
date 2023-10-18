@@ -57,29 +57,39 @@ public class WebSocket {
 
                     if(userPlayerMap.size() < numberOfPlayers ) {
                         String name = request.getString("name");
-                        Player player = new Player(name);
+
+                        if (!isNameTaken(name)) {
+                            Player player = new Player(name);
 
 
-                        userPlayerMap.put(ctx, player);
-                        // dealer.dealCards(List.of(player));
-                        JSONObject deal = new JSONObject();
+                            userPlayerMap.put(ctx, player);
+                            // dealer.dealCards(List.of(player));
+                            JSONObject deal = new JSONObject();
 
 
-                        deal.put("message", "gameplay");
-                        deal.put("cards", player.getCardsInHand());
+                            deal.put("message", "gameplay");
+                            deal.put("cards", player.getCardsInHand());
 
-                        ctx.send(Map.of(
-                                        "messageType", "waitingPlayers",
-                                        "message", "Waiting for " + String.valueOf(numberOfPlayers - userPlayerMap.size()) + " to join"
-                                )
+                            ctx.send(Map.of(
+                                            "messageType", "waitingPlayers",
+                                            "message", "Waiting for " + String.valueOf(numberOfPlayers - userPlayerMap.size()) + " to join"
+                                    )
 
 //                        ctx.send(Map.of(
 //                                        "messageType", "gameplay",
 //                                        "cards", player.getCardsInHand(),
 //                                        "centreCard", centreCard
 //                                )
-                        );
+                            );
+                        }
+                        else {
+                            ctx.send(Map.of(
+                                    "messageType", "nameTaken",
+                                    "message", "Name Already Taken"
+                            ));
+                        }
                     }
+
 
                     if(userPlayerMap.size() == numberOfPlayers){
                         dealer.shuffleCards();
@@ -92,7 +102,8 @@ public class WebSocket {
                             context.send(Map.of(
                                             "messageType", "gameplay",
                                             "cards", userPlayerMap.get(context).getCardsInHand(),
-                                            "centreCard", gamePlay.getCentreCard()
+                                            "centreCard", gamePlay.getCentreCard(),
+                                            "currentPlayer",gamePlay.getCurrentPlayer().getPlayerName()
                                     )
                             );
                         }
@@ -159,5 +170,14 @@ public class WebSocket {
                 span(attrs(".timestamp"), new SimpleDateFormat("HH:mm:ss").format(new Date())),
                 p(message)
         ).render();
+    }
+
+    public static boolean isNameTaken(String name){
+        for(Player player: userPlayerMap.values() ){
+            if(player.getPlayerName().equals(name)){
+                return true;
+            }
+        }
+        return false;
     }
 }
