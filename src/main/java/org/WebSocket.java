@@ -72,14 +72,11 @@ public class WebSocket {
 
                             ctx.send(Map.of(
                                             "messageType", "waitingPlayers",
-                                            "message", "Waiting for " + String.valueOf(numberOfPlayers - userPlayerMap.size()) + " to join"
+                                            "message", "Waiting for " + String.valueOf(numberOfPlayers - userPlayerMap.size()) + " to join",
+                                            "playerName",name
                                     )
 
-//                        ctx.send(Map.of(
-//                                        "messageType", "gameplay",
-//                                        "cards", player.getCardsInHand(),
-//                                        "centreCard", centreCard
-//                                )
+
                             );
                         }
                         else {
@@ -99,11 +96,15 @@ public class WebSocket {
                         gamePlay = new GamePlay(new ArrayList<>(userPlayerMap.values()),dealer.getDeckOfCards(),centreCard);
 
                         for (WsContext context : userPlayerMap.keySet()) {
+                            ArrayList<Integer> otherPlayersCardList = getOtherPlayersCardList(context);
                             context.send(Map.of(
                                             "messageType", "gameplay",
                                             "cards", userPlayerMap.get(context).getCardsInHand(),
                                             "centreCard", gamePlay.getCentreCard(),
-                                            "currentPlayer",gamePlay.getCurrentPlayer().getPlayerName()
+                                            "currentPlayer",gamePlay.getCurrentPlayer().getPlayerName(),
+                                            "playerName", userPlayerMap.get(context).getPlayerName(),
+                                            "otherPlayerCards",otherPlayersCardList
+                                
                                     )
                             );
                         }
@@ -126,17 +127,23 @@ public class WebSocket {
 
 
                     // if(!player.getCardsInHand().isEmpty()){
-                        
 
-                            for (WsContext context : userPlayerMap.keySet()) {
-                                context.send(Map.of(
-                                        "messageType", "gameplay",
-                                        "cards", userPlayerMap.get(context).getCardsInHand(),
-                                        "centreCard", gamePlay.getCentreCard(),
-                                        "currentPlayer",gamePlay.getCurrentPlayer().getPlayerName()
-                                    )
-                            );
-                        }
+                    
+                    
+                
+                    for (WsContext context : userPlayerMap.keySet()) {
+                        ArrayList<Integer> otherPlayersCardList = getOtherPlayersCardList(context);
+                        
+                        context.send(Map.of(
+                                "messageType", "gameplay",
+                                "cards", userPlayerMap.get(context).getCardsInHand(),
+                                "centreCard", gamePlay.getCentreCard(),
+                                "currentPlayer",gamePlay.getCurrentPlayer().getPlayerName(),
+                                "otherPlayerCards",otherPlayersCardList,
+                                "playerName", playerName
+                            )
+                    );
+                }
                     // }
 
 
@@ -179,5 +186,18 @@ public class WebSocket {
             }
         }
         return false;
+    }
+
+    public static ArrayList<Integer> getOtherPlayersCardList(WsContext context){
+        ArrayList<Integer> otherPlayersCards = new ArrayList<>();
+        
+        for(Player player: userPlayerMap.values()){
+                            
+            if(!player.getPlayerName().equals(userPlayerMap.get(context).getPlayerName())){
+                otherPlayersCards.add(player.getCardsInHand().size());
+            }
+
+        }
+        return otherPlayersCards;
     }
 }

@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="461c7f13-49d5-43a5-b227-dc9616425e9a" name="Changes" comment="Dealer will not set the centre card if it is a special card like 2,8,7,Jack,Ace and Jokers.&#10;&#10;Websocket replies with a waiting response if they are still player slots available">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/WebSocket.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/WebSocket.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
