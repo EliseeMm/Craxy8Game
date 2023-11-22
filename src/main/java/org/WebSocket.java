@@ -95,6 +95,8 @@ public class WebSocket {
                 
                         gamePlay = new GamePlay(new ArrayList<>(userPlayerMap.values()),dealer.getDeckOfCards(),centreCard);
 
+                        
+
                         for (WsContext context : userPlayerMap.keySet()) {
                             ArrayList<Integer> otherPlayersCardList = getOtherPlayersCardList(context);
                             context.send(Map.of(
@@ -113,15 +115,9 @@ public class WebSocket {
                 if(request.getString("command").equals("gameplay")) {
 
                     String playerName = userPlayerMap.get(ctx).getPlayerName();
-                 
-                   
-
                     request.put("name", playerName);
                     gamePlay.play(request);
-                
                     JSONObject deal = new JSONObject();
-
-
                     deal.put("message", "gameplay");
                     deal.put("cards", userPlayerMap.get(ctx).getCardsInHand());
 
@@ -133,14 +129,13 @@ public class WebSocket {
                 
                     for (WsContext context : userPlayerMap.keySet()) {
                         ArrayList<Integer> otherPlayersCardList = getOtherPlayersCardList(context);
-                        
                         context.send(Map.of(
                                 "messageType", "gameplay",
                                 "cards", userPlayerMap.get(context).getCardsInHand(),
                                 "centreCard", gamePlay.getCentreCard(),
                                 "currentPlayer",gamePlay.getCurrentPlayer().getPlayerName(),
                                 "otherPlayerCards",otherPlayersCardList,
-                                "playerName", playerName
+                                "playerName", userPlayerMap.get(context).getPlayerName()
                             )
                     );
                 }
@@ -192,7 +187,6 @@ public class WebSocket {
         ArrayList<Integer> otherPlayersCards = new ArrayList<>();
         
         for(Player player: userPlayerMap.values()){
-                            
             if(!player.getPlayerName().equals(userPlayerMap.get(context).getPlayerName())){
                 otherPlayersCards.add(player.getCardsInHand().size());
             }
